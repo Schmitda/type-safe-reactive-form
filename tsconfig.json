@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./dist",
+    "module": "es6",
+    "outDir": "./dist"
+  },
+  "include": ["ts-form-builder.ts"],
+  "exclude": [
+    "node_modules"
+  ]
+}
