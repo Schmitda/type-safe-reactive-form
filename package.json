@@ -1,7 +1,7 @@
 {
   "name": "angular-type-safe-reactive-form",
   "version": "1.0.5",
-  "description": "A small library, which summarises a lot of functionalities used to interact with arrays and objects.",
+  "description": "A small library, which allows you to use the reactive angular form in a extensible way with type safety.",
   "main": "dist/FrontAndBackendUtility.js",
   "types": "dist/FrontAndBackendUtility.d.ts",
   "files": [
