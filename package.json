@@ -12,5 +12,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@angular/core": "^7.2.15",
+    "@angular/forms": "^7.2.15",
+    "rxjs": "^6.5.2"
+  }
 }

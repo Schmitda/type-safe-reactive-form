@@ -1,6 +1,14 @@
+import {
+    AbstractControl,
+    AsyncValidatorFn,
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ValidatorFn
+} from "@angular/forms";
+import {Observable} from "rxjs";
 import {Injectable} from "@angular/core";
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidatorFn} from "@angular/forms";
-import {Observable} from "rxjs/Observable";
 
 
 type PropertyFn<T, R> = (val: T) => R;
@@ -8,35 +16,51 @@ type PropertyFn<T, R> = (val: T) => R;
 interface AbstractControlTyped<T> extends AbstractControl {
     readonly value: T;
     readonly valueChanges: Observable<T>;
+
     setValue(value: T, options?: Object): T;
+
     patchValue(value: T, options?: Object): T;
+
     reset(value?: T, options?: Object): void;
+
     get(path: Array<string | number> | string): AbstractControl | null;
+
     get<R>(path: Array<string | number> | string): AbstractControlTyped<R> | null;
+
     getSafe<R>(propertyFn: PropertyFn<T, R>): AbstractControlTyped<R> | null;
 }
 
 export interface FormGroupTyped<T> extends FormGroup {
     readonly value: T;
     readonly valueChanges: Observable<T>;
+
     setValue(value: T, options?: Object): T;
+
     patchValue(value?: T, options?: Object): T;
+
     reset(value?: T, options?: Object): void;
+
     get(path: Array<string | number> | string): AbstractControl | null;
+
     get<T>(path: Array<string | number> | string): AbstractControlTyped<T> | null;
+
     getSafe<R>(propertyFn: PropertyFn<T, R>): AbstractControlTyped<R> | null;
 
     registerControl(name: string, control: AbstractControl): AbstractControl;
+
     registerControl<T>(name: string, control: AbstractControl): AbstractControlTyped<T>;
+
     registerControlSafe<R>(propertyFn: PropertyFn<T, R>, control: AbstractControl): AbstractControlTyped<R>;
 
     addControlSafe<R>(propertyFn: PropertyFn<T, R>, control: AbstractControl): void;
+
     removeControlSafe<R>(propertyFn: PropertyFn<T, R>): void;
+
     setControlSafe<R>(propertyFn: PropertyFn<T, R>, control: AbstractControl): void;
 }
 
 type ControlsConfigTyped<T> = {
-    [P in keyof T]?: FormControl | FormGroup | {
+    [P in keyof T]?: FormControl | FormGroup | FormArray | {
     0?: T[P];
     1?: ValidatorFn | ValidatorFn[];
     2?: AsyncValidatorFn | AsyncValidatorFn[];
@@ -82,19 +106,19 @@ export class TSFormBuilder extends FormBuilder {
     }
 
     private static mapFormGroup<T>(group: FormGroupTyped<T>): FormGroupTyped<T> {
-        group.registerControlSafe = function<T, R>(propertyFn: PropertyFn<T, R>, control: AbstractControl) {
+        group.registerControlSafe = function <T, R>(propertyFn: PropertyFn<T, R>, control: AbstractControl) {
             return TSFormBuilder.registerControlSafe(group, propertyFn, control);
         };
 
-        group.addControlSafe = function<T, R>(propertyFn: PropertyFn<T, R>, control: AbstractControl) {
+        group.addControlSafe = function <T, R>(propertyFn: PropertyFn<T, R>, control: AbstractControl) {
             TSFormBuilder.addControlSafe(group, propertyFn, control);
         };
 
-        group.removeControlSafe = function<T, R>(propertyFn: PropertyFn<T, R>) {
+        group.removeControlSafe = function <T, R>(propertyFn: PropertyFn<T, R>) {
             TSFormBuilder.removeControlSafe(group, propertyFn);
         };
 
-        group.setControlSafe = function<T, R>(propertyFn: PropertyFn<T, R>, control: AbstractControl) {
+        group.setControlSafe = function <T, R>(propertyFn: PropertyFn<T, R>, control: AbstractControl) {
             return TSFormBuilder.setControlSafe(group, propertyFn, control);
         };
 
@@ -104,7 +128,7 @@ export class TSFormBuilder extends FormBuilder {
     private static mapControl<T>(control: FormGroupTyped<T>): FormGroupTyped<T>;
     private static mapControl<T>(control: AbstractControlTyped<T>): AbstractControlTyped<T>;
     private static mapControl<T>(control: AbstractControlTyped<T> | FormGroupTyped<T>): AbstractControlTyped<T> {
-        control.getSafe = function<T, R>(propertyFn: PropertyFn<T, R>) {
+        control.getSafe = function <T, R>(propertyFn: PropertyFn<T, R>) {
             return TSFormBuilder.getSafe(control, propertyFn);
         };
 
