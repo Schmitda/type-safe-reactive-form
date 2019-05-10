@@ -1,14 +1,5 @@
-import {
-    AbstractControl,
-    AsyncValidatorFn,
-    FormArray,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ValidatorFn
-} from "@angular/forms";
-import {Observable} from "rxjs";
-import {Injectable} from "@angular/core";
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidatorFn } from "@angular/forms";
+import { Observable } from "rxjs";
 
 
 type PropertyFn<T, R> = (val: T) => R;
@@ -60,8 +51,8 @@ export interface FormGroupTyped<T> extends FormGroup {
 }
 
 type ControlsConfigTyped<T> = {
-    [P in keyof T]?: FormControl | FormGroup | FormArray | {
-    0?: T[P];
+    [P in keyof T]: FormControl | FormGroup | FormArray | {
+    0?: T[P|undefined|null];
     1?: ValidatorFn | ValidatorFn[];
     2?: AsyncValidatorFn | AsyncValidatorFn[];
 };
